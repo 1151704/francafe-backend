@@ -63,6 +63,7 @@ public class FcAuthenticationManager implements AuthenticationManager {
 		details.put("role", respuesta.getRol().getRol());
 
 		return new FcAuthenticationToken(username, password, details, authorities);
+	
 	}
 
 }

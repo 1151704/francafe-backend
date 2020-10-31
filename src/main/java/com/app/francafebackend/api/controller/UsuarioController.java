@@ -61,40 +61,45 @@ public class UsuarioController {
 	@PostMapping("")
 	public ResponseEntity<Usuario> save(@RequestBody(required = false) UsuarioApi entrada) {
 
+		System.out.println("save: " + entrada.getIdentificacion());
+
 		Usuario usuario = service.findByIdentificacion(entrada.getIdentificacion());
 
 		if (usuario == null) {
+			try {
+				Usuario usuarioSave;
 
-			Usuario usuarioSave;
+				Rol rol = rolService.buscarPorRol(entrada.getRol());
+				TipoIdentificacion tipoId = tipoIdService.buscarPorTipo(entrada.getTipoId());
+				Empresa empresa = entrada.getRol().equals("ROLE_ADMIN") ? null
+						: empresaService.buscarPorNit(nitEmpresa);
 
-			Empresa empresa = empresaService.buscarPorNit(nitEmpresa);
-			Rol rol = rolService.buscarPorRol("ROLE_USER");
-			TipoIdentificacion tipoId = tipoIdService.buscarPorTipo(entrada.getTipoId());
+				usuario = new Usuario();
+				usuario.setIdentificacion(entrada.getIdentificacion());
+				usuario.setNombres(entrada.getNombres());
+				usuario.setApellidos(entrada.getApellidos());
 
-			usuario = new Usuario();
-			usuario.setIdentificacion(entrada.getIdentificacion());
-			usuario.setNombres(entrada.getNombres());
-			usuario.setApellidos(entrada.getApellidos());
+				usuario.setEmail(entrada.getEmail());
+				usuario.setEnable(entrada.getEnable());
+				usuario.setFechaActualizacion(new Date());
 
-			usuario.setEmail(entrada.getEmail());
-			usuario.setEnable(entrada.getEnable());
-			usuario.setFechaActualizacion(new Date());
+				usuario.setRol(rol);
+				usuario.setEmpresa(empresa);
+				usuario.setTipoId(tipoId);
 
-			usuario.setRol(rol);
-			usuario.setEmpresa(empresa);
-			usuario.setTipoId(tipoId);
+				usuario.setPassword(passwordEncoder.encode(usuario.getIdentificacion()));
+				usuario.setUsername(entrada.getIdentificacion());
 
-			usuario.setPassword(passwordEncoder.encode(usuario.getIdentificacion()));
-			usuario.setUsername(entrada.getIdentificacion());
-
-			usuarioSave = service.save(usuario);
-			return new ResponseEntity<>(usuarioSave, HttpStatus.OK);
+				usuarioSave = service.save(usuario);
+				return new ResponseEntity<>(usuarioSave, HttpStatus.OK);
+			} catch (Exception e) {
+				throw new ValidationException("Error de formulario", HttpStatus.BAD_REQUEST);
+			}
 		} else {
 			throw new ValidationException(
 					"El usuario con identificación '" + entrada.getIdentificacion() + "' ya existe",
 					HttpStatus.BAD_REQUEST);
 		}
-
 	}
 
 	@Secured({ "ROLE_ADMIN" })
