@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * The persistent class for the mpe_rol database table.
+ * The persistent class for the rol database table.
  * 
  */
 @Entity

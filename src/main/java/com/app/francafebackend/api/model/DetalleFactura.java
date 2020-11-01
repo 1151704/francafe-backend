@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -18,36 +20,29 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * The persistent class for the empresa database table.
+ * The persistent class for the detalle_factura database table.
  * 
  */
 @Entity
-@Table(name = "empresa")
-public class Empresa implements Serializable {
+@Table(name = "detalle_factura")
+public class DetalleFactura implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(nullable = false)
-	private String nombre;
-
-	@Column(nullable = false, unique = true)
-	private String nit;
-
-	private String email;
-
-	private String direccion;
+	@Column(nullable = true)
+	private String observacion;
 
 	@Column(nullable = false)
-	private Boolean activo;
+	private Double valor_unidad = 0d;
 
-	@Column(nullable = false, name = "prefijo_factura")
-	private String prefijoFactura = "";
+	@Column(nullable = false)
+	private Integer cantidad = 0;
 
-	@Column(nullable = false, name = "num_factura_actual")
-	private Integer numFacturaActual = 1;
+	@Column(nullable = false)
+	private Double valor_total = 0d;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
@@ -59,9 +54,16 @@ public class Empresa implements Serializable {
 	@JsonIgnore
 	private Date fechaActualizacion;
 
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_factura", referencedColumnName = "id")
+	private Factura factura;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_producto", referencedColumnName = "id")
+	private Producto producto;
+
 	@PrePersist
 	protected void prePersist() {
-		this.activo = true;
 		this.fechaRegistro = new Date();
 	}
 
@@ -78,44 +80,36 @@ public class Empresa implements Serializable {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getObservacion() {
+		return observacion;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 
-	public String getNit() {
-		return nit;
+	public Double getValor_unidad() {
+		return valor_unidad;
 	}
 
-	public void setNit(String nit) {
-		this.nit = nit;
+	public void setValor_unidad(Double valor_unidad) {
+		this.valor_unidad = valor_unidad;
 	}
 
-	public Boolean getActivo() {
-		return activo;
+	public Integer getCantidad() {
+		return cantidad;
 	}
 
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 
-	public String getEmail() {
-		return email;
+	public Double getValor_total() {
+		return valor_total;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setValor_total(Double valor_total) {
+		this.valor_total = valor_total;
 	}
 
 	public Date getFechaRegistro() {
@@ -134,20 +128,20 @@ public class Empresa implements Serializable {
 		this.fechaActualizacion = fechaActualizacion;
 	}
 
-	public String getPrefijoFactura() {
-		return prefijoFactura;
+	public Factura getFactura() {
+		return factura;
 	}
 
-	public void setPrefijoFactura(String prefijoFactura) {
-		this.prefijoFactura = prefijoFactura;
+	public void setFactura(Factura factura) {
+		this.factura = factura;
 	}
 
-	public Integer getNumFacturaActual() {
-		return numFacturaActual;
+	public Producto getProducto() {
+		return producto;
 	}
 
-	public void setNumFacturaActual(Integer numFacturaActual) {
-		this.numFacturaActual = numFacturaActual;
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
 }

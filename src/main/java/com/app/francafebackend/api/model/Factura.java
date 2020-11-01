@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -18,36 +20,29 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * The persistent class for the empresa database table.
+ * The persistent class for the factura database table.
  * 
  */
 @Entity
-@Table(name = "empresa")
-public class Empresa implements Serializable {
+@Table(name = "factura")
+public class Factura implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(nullable = false)
-	private String nombre;
-
 	@Column(nullable = false, unique = true)
-	private String nit;
-
-	private String email;
-
-	private String direccion;
+	private String codigo;
 
 	@Column(nullable = false)
-	private Boolean activo;
+	private Double valor_total = 0d;
 
-	@Column(nullable = false, name = "prefijo_factura")
-	private String prefijoFactura = "";
+	@Column(nullable = false)
+	private Double valor_iva = 0d;
 
-	@Column(nullable = false, name = "num_factura_actual")
-	private Integer numFacturaActual = 1;
+	@Column(nullable = false)
+	private Double valor_neto = 0d;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
@@ -59,9 +54,20 @@ public class Empresa implements Serializable {
 	@JsonIgnore
 	private Date fechaActualizacion;
 
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id")
+	private Cliente cliente;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_empleado", referencedColumnName = "id")
+	private Usuario empleado;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_forma_pago", referencedColumnName = "id")
+	private FormaPago formaPago;
+
 	@PrePersist
 	protected void prePersist() {
-		this.activo = true;
 		this.fechaRegistro = new Date();
 	}
 
@@ -78,44 +84,36 @@ public class Empresa implements Serializable {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
-	public String getNit() {
-		return nit;
+	public Double getValor_total() {
+		return valor_total;
 	}
 
-	public void setNit(String nit) {
-		this.nit = nit;
+	public void setValor_total(Double valor_total) {
+		this.valor_total = valor_total;
 	}
 
-	public Boolean getActivo() {
-		return activo;
+	public Double getValor_iva() {
+		return valor_iva;
 	}
 
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
+	public void setValor_iva(Double valor_iva) {
+		this.valor_iva = valor_iva;
 	}
 
-	public String getEmail() {
-		return email;
+	public Double getValor_neto() {
+		return valor_neto;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setValor_neto(Double valor_neto) {
+		this.valor_neto = valor_neto;
 	}
 
 	public Date getFechaRegistro() {
@@ -134,20 +132,28 @@ public class Empresa implements Serializable {
 		this.fechaActualizacion = fechaActualizacion;
 	}
 
-	public String getPrefijoFactura() {
-		return prefijoFactura;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setPrefijoFactura(String prefijoFactura) {
-		this.prefijoFactura = prefijoFactura;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public Integer getNumFacturaActual() {
-		return numFacturaActual;
+	public Usuario getEmpleado() {
+		return empleado;
 	}
 
-	public void setNumFacturaActual(Integer numFacturaActual) {
-		this.numFacturaActual = numFacturaActual;
+	public void setEmpleado(Usuario empleado) {
+		this.empleado = empleado;
+	}
+
+	public FormaPago getFormaPago() {
+		return formaPago;
+	}
+
+	public void setFormaPago(FormaPago formaPago) {
+		this.formaPago = formaPago;
 	}
 
 }

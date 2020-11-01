@@ -20,18 +20,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * The persistent class for the usuario database table.
+ * The persistent class for the cliente database table.
  * 
  */
 @Entity
-@Table(name = "usuario")
-public class Usuario implements Serializable {
+@Table(name = "cliente")
+public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
-	private int id;
+	private Integer id;
 
 	@Column(nullable = false)
 	private String nombres;
@@ -40,20 +39,13 @@ public class Usuario implements Serializable {
 	private String apellidos;
 
 	@Column(nullable = false, unique = true)
-	private String email;
-
-	@Column(nullable = false, unique = true)
 	private String identificacion;
 
-	@Column(nullable = false, unique = true)
-	private String username;
+	@Column(nullable = false)
+	private String telefono;
 
 	@Column(nullable = false)
-	@JsonIgnore
-	private String password;
-
-	@Column(nullable = false)
-	private Boolean enable;
+	private String direccion;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
@@ -66,20 +58,15 @@ public class Usuario implements Serializable {
 	private Date fechaActualizacion;
 
 	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_sexo", referencedColumnName = "id")
+	private Sexo sexo;
+
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "id_tipo_identificacion", referencedColumnName = "id")
 	private TipoIdentificacion tipoId;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "id_rol", referencedColumnName = "id")
-	private Rol rol;
-
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "id_empresa", referencedColumnName = "id")
-	private Empresa empresa;
-
 	@PrePersist
 	protected void prePersist() {
-		this.enable = true;
 		this.fechaRegistro = new Date();
 	}
 
@@ -88,11 +75,11 @@ public class Usuario implements Serializable {
 		this.fechaActualizacion = new Date();
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -112,14 +99,6 @@ public class Usuario implements Serializable {
 		this.apellidos = apellidos;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getIdentificacion() {
 		return identificacion;
 	}
@@ -128,28 +107,20 @@ public class Usuario implements Serializable {
 		this.identificacion = identificacion;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getTelefono() {
+		return telefono;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getDireccion() {
+		return direccion;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Boolean getEnable() {
-		return enable;
-	}
-
-	public void setEnable(Boolean enable) {
-		this.enable = enable;
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public Date getFechaRegistro() {
@@ -168,28 +139,20 @@ public class Usuario implements Serializable {
 		this.fechaActualizacion = fechaActualizacion;
 	}
 
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
+
 	public TipoIdentificacion getTipoId() {
 		return tipoId;
 	}
 
 	public void setTipoId(TipoIdentificacion tipoId) {
 		this.tipoId = tipoId;
-	}
-
-	public Rol getRol() {
-		return rol;
-	}
-
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
 	}
 
 }

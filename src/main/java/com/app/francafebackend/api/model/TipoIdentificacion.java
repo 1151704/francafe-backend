@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * The persistent class for the mpe_tipo_identificacion database table.
+ * The persistent class for the tipo_identificacion database table.
  * 
  */
 @Entity
