@@ -61,8 +61,6 @@ public class UsuarioController {
 	@PostMapping("")
 	public ResponseEntity<Usuario> save(@RequestBody(required = false) UsuarioApi entrada) {
 
-		System.out.println("save: " + entrada.getIdentificacion());
-
 		Usuario usuario = service.findByIdentificacion(entrada.getIdentificacion());
 
 		if (usuario == null) {
