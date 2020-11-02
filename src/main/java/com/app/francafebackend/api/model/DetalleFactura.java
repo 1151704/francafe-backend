@@ -35,8 +35,8 @@ public class DetalleFactura implements Serializable {
 	@Column(nullable = true)
 	private String observacion;
 
-	@Column(nullable = false)
-	private Double valor_unidad = 0d;
+	@Column(nullable = false, name = "valor_unidad")
+	private Double valorUnidad = 0d;
 
 	@Column(nullable = false)
 	private Integer cantidad = 0;
@@ -88,12 +88,12 @@ public class DetalleFactura implements Serializable {
 		this.observacion = observacion;
 	}
 
-	public Double getValor_unidad() {
-		return valor_unidad;
+	public Double getValorUnidad() {
+		return valorUnidad;
 	}
 
-	public void setValor_unidad(Double valor_unidad) {
-		this.valor_unidad = valor_unidad;
+	public void setValorUnidad(Double valorUnidad) {
+		this.valorUnidad = valorUnidad;
 	}
 
 	public Integer getCantidad() {
