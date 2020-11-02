@@ -5,6 +5,8 @@ import java.util.List;
 import com.app.francafebackend.api.model.Empresa;
 
 public interface EmpresaService {
+	
+	public Empresa guardar(Empresa entity);
 
 	public Empresa buscarPorNit(String nit);
 

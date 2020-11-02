@@ -25,6 +25,15 @@ public class FormaPago implements Serializable {
 	@Column(nullable = false)
 	private String nombre;
 
+	public FormaPago() {
+		super();
+	}
+
+	public FormaPago(Integer id) {
+		super();
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}

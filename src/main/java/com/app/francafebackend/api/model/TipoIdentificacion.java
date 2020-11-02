@@ -31,6 +31,15 @@ public class TipoIdentificacion implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String tipo;
 
+	public TipoIdentificacion() {
+		super();
+	}
+
+	public TipoIdentificacion(int id) {
+		super();
+		this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}

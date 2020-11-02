@@ -35,14 +35,17 @@ public class DetalleFactura implements Serializable {
 	@Column(nullable = true)
 	private String observacion;
 
-	@Column(nullable = false, name = "valor_unidad")
-	private Double valorUnidad = 0d;
-
 	@Column(nullable = false)
 	private Integer cantidad = 0;
 
 	@Column(nullable = false, name = "valor_total")
 	private Double valorTotal = 0d;
+
+	@Column(nullable = false, name = "valor_unidad")
+	private Double valorUnidad = 0d;
+
+	@Column(nullable = false, name = "valor_iva")
+	private Double valorIva = 0d;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
@@ -142,6 +145,14 @@ public class DetalleFactura implements Serializable {
 
 	public void setProducto(Producto producto) {
 		this.producto = producto;
+	}
+
+	public Double getValorIva() {
+		return valorIva;
+	}
+
+	public void setValorIva(Double valorIva) {
+		this.valorIva = valorIva;
 	}
 
 }

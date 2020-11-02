@@ -2,14 +2,18 @@ package com.app.francafebackend.api.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -18,6 +22,8 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 /**
  * The persistent class for the factura database table.
@@ -35,14 +41,14 @@ public class Factura implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String codigo;
 
-	@Column(nullable = false)
-	private Double valor_total = 0d;
+	@Column(nullable = false, name = "valor_total")
+	private Double valorTotal = 0d;
 
-	@Column(nullable = false)
-	private Double valor_iva = 0d;
+	@Column(nullable = false, name = "valor_iva")
+	private Double valorIva = 0d;
 
-	@Column(nullable = false)
-	private Double valor_neto = 0d;
+	@Column(nullable = false, name = "valor_neto")
+	private Double valorNeto = 0d;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
@@ -65,6 +71,10 @@ public class Factura implements Serializable {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "id_forma_pago", referencedColumnName = "id")
 	private FormaPago formaPago;
+
+	@OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private Set<DetalleFactura> detalles;
 
 	@PrePersist
 	protected void prePersist() {
@@ -92,28 +102,28 @@ public class Factura implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public Double getValor_total() {
-		return valor_total;
+	public Double getValorTotal() {
+		return valorTotal;
 	}
 
-	public void setValor_total(Double valor_total) {
-		this.valor_total = valor_total;
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
-	public Double getValor_iva() {
-		return valor_iva;
+	public Double getValorIva() {
+		return valorIva;
 	}
 
-	public void setValor_iva(Double valor_iva) {
-		this.valor_iva = valor_iva;
+	public void setValorIva(Double valorIva) {
+		this.valorIva = valorIva;
 	}
 
-	public Double getValor_neto() {
-		return valor_neto;
+	public Double getValorNeto() {
+		return valorNeto;
 	}
 
-	public void setValor_neto(Double valor_neto) {
-		this.valor_neto = valor_neto;
+	public void setValorNeto(Double valorNeto) {
+		this.valorNeto = valorNeto;
 	}
 
 	public Date getFechaRegistro() {
@@ -154,6 +164,14 @@ public class Factura implements Serializable {
 
 	public void setFormaPago(FormaPago formaPago) {
 		this.formaPago = formaPago;
+	}
+
+	public Set<DetalleFactura> getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(Set<DetalleFactura> detalles) {
+		this.detalles = detalles;
 	}
 
 }

@@ -20,6 +20,16 @@ public class EmpresaServiceImpl implements EmpresaService {
 	private EmpresaRepository repository;
 
 	@Override
+	public Empresa guardar(Empresa entity) {
+		try {
+			return repository.save(entity);
+		} catch (Exception e) {
+			logger.error("Registrar empresa", e);
+		}
+		return null;
+	}
+
+	@Override
 	public Empresa buscarPorNit(String nit) {
 		try {
 			return repository.findFirstByNit(nit);

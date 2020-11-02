@@ -25,6 +25,15 @@ public class Sexo implements Serializable {
 	@Column(nullable = false)
 	private String nombre;
 
+	public Sexo(Integer id) {
+		super();
+		this.id = id;
+	}
+
+	public Sexo() {
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}
