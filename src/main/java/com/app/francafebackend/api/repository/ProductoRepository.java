@@ -16,9 +16,9 @@ public interface ProductoRepository extends CrudRepository<Producto, Integer> {
 
 	public List<Producto> findByCodigoContainingIgnoreCaseOrNombreContainingIgnoreCase(String codigo, String nombre);
 
-	public List<Producto> findFirst10ByCodigoContainingIgnoreCaseOrNombreContainingIgnoreCaseAndCategoria(String codigo,
-			String nombre, Categoria categoria);
+	public List<Producto> findFirst10ByCategoriaAndCodigoContainingIgnoreCaseOrNombreContainingIgnoreCase(
+			Categoria categoria, String codigo, String nombre);
 
-	public List<Producto> findByCodigoContainingIgnoreCaseOrNombreContainingIgnoreCaseAndCategoria(String codigo,
-			String nombre, Categoria categoria);
+	public List<Producto> findByCategoriaAndCodigoContainingIgnoreCaseOrNombreContainingIgnoreCase(Categoria categoria,
+			String codigo, String nombre);
 }

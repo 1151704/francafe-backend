@@ -41,8 +41,8 @@ public class DetalleFactura implements Serializable {
 	@Column(nullable = false)
 	private Integer cantidad = 0;
 
-	@Column(nullable = false)
-	private Double valor_total = 0d;
+	@Column(nullable = false, name = "valor_total")
+	private Double valorTotal = 0d;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
@@ -104,12 +104,12 @@ public class DetalleFactura implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public Double getValor_total() {
-		return valor_total;
+	public Double getValorTotal() {
+		return valorTotal;
 	}
 
-	public void setValor_total(Double valor_total) {
-		this.valor_total = valor_total;
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
 	public Date getFechaRegistro() {

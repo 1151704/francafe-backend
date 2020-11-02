@@ -43,10 +43,10 @@ public class Empresa implements Serializable {
 	@Column(nullable = false)
 	private Boolean activo;
 
-	@Column(nullable = false, name = "prefijo_factura")
+	@Column(nullable = true, name = "prefijo_factura")
 	private String prefijoFactura = "";
 
-	@Column(nullable = false, name = "num_factura_actual")
+	@Column(nullable = true, name = "num_factura_actual")
 	private Integer numFacturaActual = 1;
 
 	@Temporal(TemporalType.TIMESTAMP)

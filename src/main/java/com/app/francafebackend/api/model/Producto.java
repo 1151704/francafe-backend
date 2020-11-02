@@ -44,8 +44,8 @@ public class Producto implements Serializable {
 	@Column(nullable = false)
 	private Double precio = 0d;
 
-	@Column(nullable = false)
-	private Double valor_iva = 0d;
+	@Column(nullable = false, name = "valor_iva")
+	private Double valorIva = 0d;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
@@ -133,6 +133,14 @@ public class Producto implements Serializable {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public Double getValorIva() {
+		return valorIva;
+	}
+
+	public void setValorIva(Double valorIva) {
+		this.valorIva = valorIva;
 	}
 
 }

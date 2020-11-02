@@ -61,9 +61,10 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public List<Producto> listarProductosPorNombreOrCodigoAndCategoria(String busqueda, Categoria categoria) {
+	public List<Producto> listarProductosPorCategoriaAndNombreOrCodigo(Categoria categoria, String busqueda) {
 		try {
-			return repository.findByCodigoContainingIgnoreCaseOrNombreContainingIgnoreCaseAndCategoria(busqueda, busqueda, categoria);
+			return repository.findByCategoriaAndCodigoContainingIgnoreCaseOrNombreContainingIgnoreCase(categoria,
+					busqueda, busqueda);
 		} catch (Exception e) {
 			logger.error("Listar facturas por rango fechas", e);
 		}
@@ -81,9 +82,10 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public List<Producto> listar10ProductosPorNombreOrCodigoAndCategoria(String busqueda, Categoria categoria) {
+	public List<Producto> listar10CategoriaAndProductosPorNombreOrCodigo(Categoria categoria, String busqueda) {
 		try {
-			return repository.findFirst10ByCodigoContainingIgnoreCaseOrNombreContainingIgnoreCaseAndCategoria(busqueda, busqueda, categoria);
+			return repository.findFirst10ByCategoriaAndCodigoContainingIgnoreCaseOrNombreContainingIgnoreCase(categoria,
+					busqueda, busqueda);
 		} catch (Exception e) {
 			logger.error("Listar facturas por rango fechas", e);
 		}

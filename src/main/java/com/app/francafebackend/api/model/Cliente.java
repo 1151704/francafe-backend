@@ -44,9 +44,6 @@ public class Cliente implements Serializable {
 	@Column(nullable = false)
 	private String telefono;
 
-	@Column(nullable = false)
-	private String direccion;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/Bogota")
@@ -113,14 +110,6 @@ public class Cliente implements Serializable {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
 	}
 
 	public Date getFechaRegistro() {
