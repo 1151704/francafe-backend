@@ -1,0 +1,39 @@
+INSERT INTO empresa (id, activo, direccion, email, fecha_actualizacion, fecha_registro, nit, nombre, num_factura_actual, prefijo_factura) VALUES(1, true, 'Jardín Plaza', 'cucuta@francafe.com', '2020-11-02 17:24:41.527', '2020-10-21 22:59:53.888', '9004136386', 'Francafe S.A.S', 1236, 'CA');
+
+INSERT INTO rol (id, descripcion, rol) VALUES(1, 'Administrador', 'ROLE_ADMIN');
+INSERT INTO rol (id, descripcion, rol) VALUES(2, 'Gerente', 'ROLE_GERENTE');
+INSERT INTO rol (id, descripcion, rol) VALUES(3, 'Empleado', 'ROLE_EMPLEADO');
+
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(1, 'Registro civil', 'RC');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(2, 'Tarjeta de identidad', 'TI');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(3, 'Cédula de ciudadanía', 'CC');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(4, 'Cédula de extranjería', 'CE');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(5, 'Pasaporte', 'PA');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(6, 'Certificado de nacido vivo', 'NV');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(7, 'Carné diplomático', 'CD');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(8, 'Salvo conducto de permanencia', 'SC');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(9, 'Pasaporte de la ONU', 'PR');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(10, 'Permiso Especial de Permanencia', 'PE');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(11, 'NIT', 'NI');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(12, 'Adulto sin Identificación', 'AS');
+INSERT INTO tipo_identificacion(id, descripcion, tipo)VALUES(13, 'Menor sin Identificación', 'MS');
+
+INSERT INTO usuario (id, apellidos, email, "enable", fecha_actualizacion, fecha_registro, identificacion, nombres, "password", username, id_empresa, id_rol, id_tipo_identificacion) VALUES(1, 'RAMÓN MONTES', 'omarmontes.879@gmail.com', true, '2019-11-11 22:35:53.663', '2019-06-29 15:47:30.000', '1093792354', 'OMAR', '$2a$10$3UGKUUuR.NssADUoTYSmJecIc00GMQGI1wKErenoDrwbpW23JxmEi', 'OMARRM', NULL, 1, 3);
+INSERT INTO usuario (id, apellidos, email, "enable", fecha_actualizacion, fecha_registro, identificacion, nombres, "password", username, id_empresa, id_rol, id_tipo_identificacion) VALUES(2, 'ADMINISTRADOR', 'user.administrador.francafe@gmail.com', true, '2019-11-11 22:35:53.663', '2019-06-29 15:47:30.000', '9876543210', 'USUARIO', '$2a$10$3UGKUUuR.NssADUoTYSmJecIc00GMQGI1wKErenoDrwbpW23JxmEi', 'francafe', NULL, 1, 3);
+
+INSERT INTO sexo (id, nombre) VALUES(1, 'Masculino');
+INSERT INTO sexo (id, nombre) VALUES(2, 'Femenino');
+
+INSERT INTO categoria (id, nombre) VALUES(1, 'Café');
+INSERT INTO categoria (id, nombre) VALUES(2, 'Helado');
+INSERT INTO categoria (id, nombre) VALUES(3, 'Bebida');
+INSERT INTO categoria (id, nombre) VALUES(4, 'Postre');
+
+INSERT INTO producto (id, codigo, descripcion, fecha_actualizacion, fecha_registro, nombre, precio, valor_iva, id_categoria) VALUES(1, '1001', '', NULL, '2020-11-01 16:23:23.808', 'Café solo', 2500.0, 0.0, 1);
+INSERT INTO producto (id, codigo, descripcion, fecha_actualizacion, fecha_registro, nombre, precio, valor_iva, id_categoria) VALUES(2, '1002', '', NULL, '2020-11-01 16:23:23.823', 'Café con leche', 2800.0, 0.0, 1);
+INSERT INTO producto (id, codigo, descripcion, fecha_actualizacion, fecha_registro, nombre, precio, valor_iva, id_categoria) VALUES(3, '1003', '', NULL, '2020-11-01 16:23:23.826', 'Café descafeinado', 2700.0, 0.0, 1);
+INSERT INTO producto (id, codigo, descripcion, fecha_actualizacion, fecha_registro, nombre, precio, valor_iva, id_categoria) VALUES(4, '1004', '', NULL, '2020-11-01 16:23:23.826', 'Malteada', 4500.0, 500.0, 1);
+
+INSERT INTO forma_pago (id, nombre) VALUES(1, 'Efectivo');
+INSERT INTO forma_pago (id, nombre) VALUES(2, 'Tarjeta');
+
