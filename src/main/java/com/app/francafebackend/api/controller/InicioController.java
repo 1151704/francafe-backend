@@ -13,7 +13,7 @@ public class InicioController {
 
 		String ip = request.getRemoteAddr();
 
-		return "API REST HUELLERITOS -> " + ip;
+		return "API REST FRANCAFE -> " + ip;
 	}
 
 }
