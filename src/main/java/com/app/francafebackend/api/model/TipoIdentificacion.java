@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  * The persistent class for the tipo_identificacion database table.
  * 
@@ -22,7 +20,6 @@ public class TipoIdentificacion implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
 	private int id;
 
 	@Column(nullable = false)
