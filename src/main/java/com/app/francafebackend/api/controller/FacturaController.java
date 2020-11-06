@@ -9,10 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.app.francafebackend.api.data.DetallePedidoApi;
 import com.app.francafebackend.api.data.PedidoApi;
@@ -32,7 +35,7 @@ import com.app.francafebackend.api.service.ProductoService;
 import com.app.francafebackend.api.service.UsuarioService;
 import com.app.francafebackend.api.utils.ValidationException;
 
-@RestController
+@Controller
 @RequestMapping("api/factura/")
 public class FacturaController {
 
@@ -125,6 +128,25 @@ public class FacturaController {
 			e.printStackTrace();
 			throw new ValidationException("Error de formulario", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@GetMapping("{id}")
+	public String facturaPorIdentificaor(Model model, @PathVariable Integer id) {
+
+		Factura factura = null;
+
+		if (id != null) {
+			try {
+				factura = service.buscarPorIdentificador(id);
+			} catch (Exception e) {
+				throw new ValidationException(e.getMessage(), HttpStatus.BAD_REQUEST);
+			}
+
+		}
+
+		model.addAttribute("factura", factura);
+
+		return "factura";
 	}
 
 }

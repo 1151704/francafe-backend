@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -59,6 +60,7 @@ public class DetalleFactura implements Serializable {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "id_factura", referencedColumnName = "id")
+	@JsonBackReference
 	private Factura factura;
 
 	@ManyToOne(optional = false)

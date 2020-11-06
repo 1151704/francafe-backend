@@ -53,6 +53,7 @@ public class Usuario implements Serializable {
 	private String password;
 
 	@Column(nullable = false)
+	@JsonIgnore
 	private Boolean enable;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -75,6 +76,7 @@ public class Usuario implements Serializable {
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "id_empresa", referencedColumnName = "id")
+	@JsonIgnore
 	private Empresa empresa;
 
 	@PrePersist
