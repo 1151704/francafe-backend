@@ -46,6 +46,9 @@ public class Producto implements Serializable {
 
 	@Column(nullable = false, name = "valor_iva")
 	private Double valorIva = 0d;
+	
+	@Column(nullable = false)
+	private Boolean enable;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
@@ -109,6 +112,14 @@ public class Producto implements Serializable {
 
 	public void setPrecio(Double precio) {
 		this.precio = precio;
+	}
+
+	public Boolean getEnable() {
+		return enable;
+	}
+
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
 	}
 
 	public Date getFechaRegistro() {
