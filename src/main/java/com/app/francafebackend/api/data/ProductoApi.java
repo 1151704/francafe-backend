@@ -2,57 +2,72 @@ package com.app.francafebackend.api.data;
 
 import java.io.Serializable;
 
-public class ProductoApi implements Serializable{
-
-	/**
-	 * 
-	 */
+public class ProductoApi implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
+	private Integer id;
 	private String codigo;
 	private String descripcion;
 	private String nombre;
 	private Double precio;
-	private Double valor_iva;
-	private Integer id_categoria;
+	private Double valorIva;
+	private Integer idCategoria;
 	private Boolean enable;
-	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getCodigo() {
 		return codigo;
 	}
-	
+
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	public Double getPrecio() {
 		return precio;
 	}
+
 	public void setPrecio(Double precio) {
 		this.precio = precio;
 	}
-	public Double getValor_iva() {
-		return valor_iva;
+
+	public Double getValorIva() {
+		return valorIva;
 	}
-	public void setValor_iva(Double valor_iva) {
-		this.valor_iva = valor_iva;
+
+	public void setValorIva(Double valorIva) {
+		this.valorIva = valorIva;
 	}
-	public Integer getId_categoria() {
-		return id_categoria;
+
+	public Integer getIdCategoria() {
+		return idCategoria;
 	}
-	public void setId_categoria(Integer id_categoria) {
-		this.id_categoria = id_categoria;
+
+	public void setIdCategoria(Integer idCategoria) {
+		this.idCategoria = idCategoria;
 	}
 
 	public Boolean getEnable() {
@@ -62,7 +77,5 @@ public class ProductoApi implements Serializable{
 	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
-	
-	
 
 }
