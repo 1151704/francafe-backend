@@ -17,6 +17,10 @@ public interface ProductoService {
 
 	public List<Producto> listarProductosPorCategoriaAndNombreOrCodigo(Categoria categoria, String busqueda);
 
+	public List<Producto> listarProductos();
+
+	public List<Producto> listarProductosPorCategoria(Categoria categoria);
+
 	public List<Producto> listar10ProductosPorNombreOrCodigo(String busqueda);
 
 	public List<Producto> listar10CategoriaAndProductosPorNombreOrCodigo(Categoria categoria, String busqueda);

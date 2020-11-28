@@ -2,6 +2,7 @@ package com.app.francafebackend.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -36,7 +37,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.cors().configurationSource(corsConfigurationSource).and()
 				.csrf().disable().authorizeRequests().and()
 				.authorizeRequests().antMatchers("/","/validate/", "/images/**", 
-						"/files/**", "/favicon.ico", "/api/file/**", "/api/factura/**").permitAll()
+						"/files/**", "/favicon.ico", "/api/file/**", "/api/reportes/contabilidad/**/**").permitAll()
 				.anyRequest()
 				.authenticated().and()
 				.exceptionHandling().accessDeniedHandler(accessDeniedHandler).and()

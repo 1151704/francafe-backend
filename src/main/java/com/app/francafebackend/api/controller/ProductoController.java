@@ -1,11 +1,9 @@
 package com.app.francafebackend.api.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +19,7 @@ import com.app.francafebackend.api.service.ProductoService;
 import com.app.francafebackend.api.utils.ValidationException;
 
 @RestController
-@RequestMapping("api/producto")
+@RequestMapping("api/producto/")
 public class ProductoController {
 
 	@Autowired
@@ -34,44 +32,42 @@ public class ProductoController {
 	@PostMapping("")
 	public ResponseEntity<Producto> save(@RequestBody(required = false) ProductoApi entrada) {
 
-		Producto producto = service.buscarPorCodigo(entrada.getCodigo());
-
-		if (producto == null && entrada.getId() == null) {
-			try {
-
-				Categoria categoria = categoriaService.buscarPorIdentificador(entrada.getIdCategoria());
-				
-				if (entrada.getId() != null) {
-					producto = service.buscarPorIdentificador(entrada.getId());
-				} else {
-					producto = new Producto();
-				}
-				
-				producto.setCodigo(entrada.getCodigo());
-				producto.setNombre(entrada.getNombre());
-				producto.setDescripcion(entrada.getDescripcion());
-
-				producto.setPrecio(entrada.getPrecio());
-				producto.setEnable(entrada.getEnable());
-				producto.setValorIva(entrada.getValorIva());
-
-				producto.setCategoria(categoria);
-
-				producto = service.guardar(producto);
-				return new ResponseEntity<>(producto, HttpStatus.OK);
-			} catch (Exception e) {
-				throw new ValidationException("Error de formulario", HttpStatus.BAD_REQUEST);
-			}
-		} else {
+		Producto productoBuscar = service.buscarPorCodigo(entrada.getCodigo());
+		if (productoBuscar != null && entrada.getId() != null && !productoBuscar.getId().equals(entrada.getId())) {
 			throw new ValidationException("El producto con codigo '" + entrada.getCodigo() + "' ya existe",
 					HttpStatus.BAD_REQUEST);
 		}
-	}
 
-	@Secured({ "ROLE_ADMIN", "ROLE_EPS" })
-	@GetMapping("byProducto/{codigo}")
-	public Producto getProducto(@PathVariable String codigo) {
-		return service.buscarPorCodigo(codigo);
+		if (entrada.getId() == null && productoBuscar != null) {
+			throw new ValidationException("El producto con codigo '" + entrada.getCodigo() + "' ya existe",
+					HttpStatus.BAD_REQUEST);
+		}
+
+		try {
+
+			Categoria categoria = categoriaService.buscarPorIdentificador(entrada.getIdCategoria());
+			Producto producto;
+			if (entrada.getId() != null) {
+				producto = service.buscarPorIdentificador(entrada.getId());
+			} else {
+				producto = new Producto();
+			}
+
+			producto.setCodigo(entrada.getCodigo());
+			producto.setNombre(entrada.getNombre());
+			producto.setDescripcion(entrada.getDescripcion());
+
+			producto.setPrecio(entrada.getPrecio());
+			producto.setEnable(entrada.getEnable());
+			producto.setValorIva(entrada.getValorIva());
+
+			producto.setCategoria(categoria);
+
+			producto = service.guardar(producto);
+			return new ResponseEntity<>(producto, HttpStatus.OK);
+		} catch (Exception e) {
+			throw new ValidationException("Error de formulario", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@Secured({ "ROLE_ADMIN", "ROLE_EPS" })
@@ -83,7 +79,7 @@ public class ProductoController {
 
 		if (producto != null) {
 
-			if (enableNew != null && enableNew != producto.getEnable()) {
+			if (enableNew != null && !enableNew.equals(producto.getEnable())) {
 
 				producto.setEnable(enableNew);
 				try {

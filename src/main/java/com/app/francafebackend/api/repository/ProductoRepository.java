@@ -21,4 +21,6 @@ public interface ProductoRepository extends CrudRepository<Producto, Integer> {
 
 	public List<Producto> findByCategoriaAndCodigoContainingIgnoreCaseOrNombreContainingIgnoreCase(Categoria categoria,
 			String codigo, String nombre);
+
+	public List<Producto> findByCategoria(Categoria categoria);
 }

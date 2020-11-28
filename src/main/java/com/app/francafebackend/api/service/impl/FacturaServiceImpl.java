@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.francafebackend.api.model.Factura;
-import com.app.francafebackend.api.model.Usuario;
 import com.app.francafebackend.api.repository.FacturaRepository;
 import com.app.francafebackend.api.service.FacturaService;
 
@@ -50,36 +49,25 @@ public class FacturaServiceImpl implements FacturaService {
 		}
 		return null;
 	}
-
+	
 	@Override
-	public List<Factura> listarFacturasPorRangoFechas(Date fechaInicio, Date fechaFinal) {
+	public List<Factura> listarFacturasPorFecha(Date fechaFactura) {
 		try {
-			return repository.findByFechaRegistroBetweenOrderByFechaRegistroAsc(fechaInicio, fechaFinal);
+			return repository.findByFechaFactura(fechaFactura);
 		} catch (Exception e) {
-			logger.error("Listar facturas por rango fechas", e);
+			logger.error("Busqueda factura por id", e);
 		}
 		return new ArrayList<>();
 	}
-
+	
 	@Override
-	public List<Factura> listarFacturasPorEmpleadoAndRangoFechas(Usuario empleado, Date fechaInicio, Date fechaFinal) {
+	public Double[] getValorTotalPorFecha(Date fechaFactura) {
 		try {
-			return repository.findByEmpleadoAndFechaRegistroBetweenOrderByFechaRegistroAsc(empleado, fechaInicio,
-					fechaFinal);
+			return repository.getValorTotalPorFecha(fechaFactura).get(0);
 		} catch (Exception e) {
-			logger.error("Listar facturas por rango de fechas y empleado", e);
+			logger.error("Busqueda factura por id", e);
 		}
-		return new ArrayList<>();
-	}
-
-	@Override
-	public List<Factura> listarFacturasPorEmpleado(Usuario empleado) {
-		try {
-			return repository.findByEmpleadoOrderByFechaRegistroAsc(empleado);
-		} catch (Exception e) {
-			logger.error("Listar facturas por empleado", e);
-		}
-		return new ArrayList<>();
+		return new Double[3];
 	}
 
 }

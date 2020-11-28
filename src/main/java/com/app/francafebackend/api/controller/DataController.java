@@ -119,4 +119,24 @@ public class DataController {
 		return new ResponseEntity<>(productos, HttpStatus.OK);
 	}
 
+	@GetMapping("productos/{idCategoria}")
+	public ResponseEntity<List<Producto>> getProductosByCategoria(@PathVariable Integer idCategoria) {
+
+		Categoria categoria = null;
+
+		if (!idCategoria.equals(0)) {
+			categoria = categoriaService.buscarPorIdentificador(idCategoria);
+		}
+
+		List<Producto> productos;
+
+		if (categoria != null) {
+			productos = productoService.listarProductosPorCategoria(categoria);
+		} else {
+			productos = productoService.listarProductos();
+		}
+
+		return new ResponseEntity<>(productos, HttpStatus.OK);
+	}
+
 }

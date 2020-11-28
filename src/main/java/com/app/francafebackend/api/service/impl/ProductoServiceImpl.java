@@ -87,7 +87,27 @@ public class ProductoServiceImpl implements ProductoService {
 			return repository.findFirst10ByCategoriaAndCodigoContainingIgnoreCaseOrNombreContainingIgnoreCase(categoria,
 					busqueda, busqueda);
 		} catch (Exception e) {
-			logger.error("Listar facturas por rango fechas", e);
+			logger.error("Listar 10 productos por filtrado", e);
+		}
+		return new ArrayList<>();
+	}
+
+	@Override
+	public List<Producto> listarProductos() {
+		try {
+			return (List<Producto>) repository.findAll();
+		} catch (Exception e) {
+			logger.error("Listar todos los productos", e);
+		}
+		return new ArrayList<>();
+	}
+
+	@Override
+	public List<Producto> listarProductosPorCategoria(Categoria categoria) {
+		try {
+			return repository.findByCategoria(categoria);
+		} catch (Exception e) {
+			logger.error("Listar productos por categoria", e);
 		}
 		return new ArrayList<>();
 	}

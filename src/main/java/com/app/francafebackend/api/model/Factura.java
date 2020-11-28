@@ -50,6 +50,11 @@ public class Factura implements Serializable {
 	@Column(nullable = false, name = "valor_neto")
 	private Double valorNeto = 0d;
 
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fecha_factura", nullable = true)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "America/Bogota")
+	private Date fechaFactura;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_registro", nullable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/Bogota")
@@ -80,6 +85,7 @@ public class Factura implements Serializable {
 	@PrePersist
 	protected void prePersist() {
 		this.fechaRegistro = new Date();
+		this.fechaFactura = new Date();
 	}
 
 	@PreUpdate
@@ -173,6 +179,14 @@ public class Factura implements Serializable {
 
 	public void setDetalles(Set<DetalleFactura> detalles) {
 		this.detalles = detalles;
+	}
+
+	public Date getFechaFactura() {
+		return fechaFactura;
+	}
+
+	public void setFechaFactura(Date fechaFactura) {
+		this.fechaFactura = fechaFactura;
 	}
 
 }
