@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
-import com.app.francafebackend.api.data.ValorDiarioData;
 import com.app.francafebackend.api.model.Empresa;
 import com.app.francafebackend.api.service.EmpresaService;
 import com.app.francafebackend.api.utils.ImagenAbsolute;
@@ -31,8 +31,8 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-@Component("contabilidad.pdf")
-public class ContabilidadViewPdf extends AbstractPdfView {
+@Component("egresos.pdf")
+public class EgresosViewPdf extends AbstractPdfView {
 
 	@Autowired
 	private EmpresaService empresaService;
@@ -59,10 +59,10 @@ public class ContabilidadViewPdf extends AbstractPdfView {
 
 		Date fechaInicio = (Date) model.get("fechaInicio");
 		Date fechaFinal = (Date) model.get("fechaFinal");
-		List<ValorDiarioData> valores = (List<ValorDiarioData>) model.get("valores");
+		List<HashMap<String, Object>> valores = (List<HashMap<String, Object>>) model.get("valores");
 
 		Empresa empresa = empresaService.buscarPorNit(nitEmpresa);
-		document.addTitle("Reporte contabilidad");
+		document.addTitle("Reporte egresos");
 
 		PdfPTable tablaXn;
 		PdfPTable tabla = new PdfPTable(10);
@@ -90,7 +90,7 @@ public class ContabilidadViewPdf extends AbstractPdfView {
 		celda.setColspan(2);
 		tablaXn.addCell(celda);
 
-		String titulo = String.format("%s\nNit: %s\n%s\nEmail: %s\n\nREPORTE DE FACTURAS", empresa.getNombre(), empresa.getNit(),
+		String titulo = String.format("%s\nNit: %s\n%s\nEmail: %s\n\nREPORTE DE EGREGOS", empresa.getNombre(), empresa.getNit(),
 				empresa.getDireccion(), empresa.getEmail());
 
 		celda = new PdfPCell(new Phrase(titulo, FONT_CELL_TITLE));
@@ -122,22 +122,10 @@ public class ContabilidadViewPdf extends AbstractPdfView {
 
 		/* INICIO CUERPO */
 
-		tablaXn = new PdfPTable(4);
-		tablaXn.setWidths(new int[] { 40, 20, 20, 20 });
+		tablaXn = new PdfPTable(2);
+		tablaXn.setWidths(new int[] { 60, 40 });
 
 		celda = new PdfPCell(new Phrase("FECHA", FONT_CELL_TITLE));
-		celda.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-		celda.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-		celda.setBackgroundColor(COLOR_CELL_TITLE_2);
-		tablaXn.addCell(celda);
-
-		celda = new PdfPCell(new Phrase("VALOR IVA", FONT_CELL_TITLE));
-		celda.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-		celda.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-		celda.setBackgroundColor(COLOR_CELL_TITLE_2);
-		tablaXn.addCell(celda);
-
-		celda = new PdfPCell(new Phrase("VALOR NETO", FONT_CELL_TITLE));
 		celda.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
 		celda.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 		celda.setBackgroundColor(COLOR_CELL_TITLE_2);
@@ -150,46 +138,24 @@ public class ContabilidadViewPdf extends AbstractPdfView {
 		tablaXn.addCell(celda);
 		
 		int totalDias = 0;
-		Double valorTotal=0d, valorIva=0d, valorNeto = 0d;
+		Double valorTotal=0d;
 
-		for (ValorDiarioData detalle : valores) {
+		for (HashMap<String, Object> detalle : valores) {
 
 			celda = new PdfPCell(
-					new Phrase(formatFecha.format(detalle.getFechaFactura()), FONT_CELL));
+					new Phrase(formatFecha.format(detalle.get("fecha")), FONT_CELL));
 			tablaXn.addCell(celda);
 
-			celda = new PdfPCell(new Phrase(formatDecimal(detalle.getValorTotalIva()), FONT_CELL));
-			celda.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-			tablaXn.addCell(celda);
-
-			celda = new PdfPCell(new Phrase(formatDecimal(detalle.getValorTotalNeto()), FONT_CELL));
-			celda.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-			tablaXn.addCell(celda);
-
-			celda = new PdfPCell(new Phrase(formatDecimal(detalle.getValorTotal()), FONT_CELL));
+			celda = new PdfPCell(new Phrase(formatDecimal((Double) detalle.get("valor")), FONT_CELL));
 			celda.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 			tablaXn.addCell(celda);
 			
-			valorTotal += detalle.getValorTotal();
-			valorIva += detalle.getValorTotalIva();
-			valorNeto += detalle.getValorTotalNeto();
+			valorTotal += (Double) detalle.get("valor");
 			totalDias += 1;
 
 		}
 
 		celda = new PdfPCell(new Phrase("Días: "+ totalDias, FONT_CELL_TITLE));
-		celda.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-		celda.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-		celda.setBackgroundColor(COLOR_CELL_TITLE_2);
-		tablaXn.addCell(celda);
-
-		celda = new PdfPCell(new Phrase("TOTAL IVA: "+formatDecimal(valorIva), FONT_CELL_TITLE));
-		celda.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-		celda.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-		celda.setBackgroundColor(COLOR_CELL_TITLE_2);
-		tablaXn.addCell(celda);
-
-		celda = new PdfPCell(new Phrase("TOTAL NETO: "+formatDecimal(valorNeto), FONT_CELL_TITLE));
 		celda.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
 		celda.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 		celda.setBackgroundColor(COLOR_CELL_TITLE_2);

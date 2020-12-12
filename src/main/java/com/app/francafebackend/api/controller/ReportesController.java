@@ -3,6 +3,7 @@ package com.app.francafebackend.api.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.app.francafebackend.api.data.ValorDiarioData;
 import com.app.francafebackend.api.service.FacturaService;
+import com.app.francafebackend.api.service.InsumoEntradaService;
 
 @Controller
 @RequestMapping("api/reportes/")
@@ -22,6 +24,9 @@ public class ReportesController {
 
 	@Autowired
 	private FacturaService service;
+
+	@Autowired
+	private InsumoEntradaService insumoEntradaService;
 
 	@GetMapping("contabilidad/{fechaInicio}/{fechaFinal}")
 	public String reporteContabilidad(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio,
@@ -61,6 +66,46 @@ public class ReportesController {
 		model.addAttribute("fechaFinal", fechaFinal);
 
 		return "contabilidad";
+	}
+
+	@GetMapping("egresos/{fechaInicio}/{fechaFinal}")
+	public String reporteEgresos(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio,
+			@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFinal, Model model) {
+
+		Calendar start = Calendar.getInstance();
+		start.setTime(fechaInicio);
+
+		Calendar end = Calendar.getInstance();
+		end.setTime(fechaFinal);
+
+		List<HashMap<String, Object>> valores = new ArrayList<>();
+
+		Double valorTotal;
+		Double data;
+		while (!start.after(end)) {
+
+			data = insumoEntradaService.getValorTotalPorFecha(start.getTime());
+
+			valorTotal = 0d;
+
+			if (data != null) {
+				valorTotal = data;
+			}
+			
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("fecha", start.getTime());
+			map.put("valor", valorTotal);
+
+			valores.add(map);
+
+			start.add(Calendar.DATE, 1);
+		}
+
+		model.addAttribute("valores", valores);
+		model.addAttribute("fechaInicio", fechaInicio);
+		model.addAttribute("fechaFinal", fechaFinal);
+
+		return "egresos";
 	}
 
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.francafebackend.api.model.Categoria;
 import com.app.francafebackend.api.model.Cliente;
 import com.app.francafebackend.api.model.FormaPago;
+import com.app.francafebackend.api.model.Insumo;
+import com.app.francafebackend.api.model.InsumoEntrada;
 import com.app.francafebackend.api.model.Producto;
 import com.app.francafebackend.api.model.Rol;
 import com.app.francafebackend.api.model.Sexo;
@@ -20,6 +22,8 @@ import com.app.francafebackend.api.model.TipoIdentificacion;
 import com.app.francafebackend.api.service.CategoriaService;
 import com.app.francafebackend.api.service.ClienteService;
 import com.app.francafebackend.api.service.FormaPagoService;
+import com.app.francafebackend.api.service.InsumoEntradaService;
+import com.app.francafebackend.api.service.InsumoService;
 import com.app.francafebackend.api.service.ProductoService;
 import com.app.francafebackend.api.service.RolService;
 import com.app.francafebackend.api.service.SexoService;
@@ -50,6 +54,12 @@ public class DataController {
 	@Autowired
 	private ClienteService clienteService;
 
+	@Autowired
+	private InsumoService insumosService;
+
+	@Autowired
+	private InsumoEntradaService insumosEntradaService;
+
 	@GetMapping("cliente/{identificacion}")
 	public ResponseEntity<Cliente> getCliente(@PathVariable String identificacion) {
 
@@ -78,6 +88,22 @@ public class DataController {
 	public ResponseEntity<List<Sexo>> getSexo() {
 
 		List<Sexo> sexos = sexoService.listarSexos();
+
+		return new ResponseEntity<>(sexos, HttpStatus.OK);
+	}
+
+	@GetMapping("insumos")
+	public ResponseEntity<List<Insumo>> getInsumos() {
+
+		List<Insumo> sexos = insumosService.listarInsumos();
+
+		return new ResponseEntity<>(sexos, HttpStatus.OK);
+	}
+
+	@GetMapping("insumos/{idInsumo}")
+	public ResponseEntity<List<InsumoEntrada>> getInsumosEntrada(@PathVariable Integer idInsumo) {
+
+		List<InsumoEntrada> sexos = insumosEntradaService.listarPorInsumo(idInsumo);
 
 		return new ResponseEntity<>(sexos, HttpStatus.OK);
 	}
